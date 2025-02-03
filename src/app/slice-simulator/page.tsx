@@ -10,7 +10,7 @@ import { components } from "@/slices";
 
 export default function SliceSimulatorPage({
   searchParams,
-}: SliceSimulatorParams & { searchParams: { secret?: string } }) {
+}: SliceSimulatorParams & { searchParams: { secret?: string; state?: string } }) { // Include state in the type
   if (
     process.env.SLICE_SIMULATOR_SECRET &&
     searchParams.secret !== process.env.SLICE_SIMULATOR_SECRET
@@ -18,7 +18,8 @@ export default function SliceSimulatorPage({
     redirect("/");
   }
 
-  const slices = getSlices(searchParams.state);
+  // Handle the case where state might be undefined
+  const slices = getSlices(searchParams.state || 'defaultState'); // Provide a default value if state is undefined
 
   return (
     <SliceSimulator background="" zIndex={10}>
